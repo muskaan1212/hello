@@ -1,0 +1,25 @@
+:root {
+  --primary: #c45b40;
+  --primary-light: #e4b7e5;
+  --secondary: #e4b7e5;
+  --accent: #a7d7c5;
+  --text: #4a4a4a;
+  --light: #f9f1f9;
+  --background: #f9f1f9;
+  --card: #ffffff;
+  --muted: #f1e6f1;
+  --muted-foreground: #6c6c6c;
+}
+
+.dark {
+  --primary: #dd92dd;
+  --primary-light: #e4b7e5;
+  --secondary: #e4b7e5;
+  --accent: #a7d7c5;
+  --text: #f9f1f9;
+  --light: #2d2d2d;
+  --background: #1a1a1a;
+  --card: #2d2d2d;
+  --muted: #3d3d3d;
+  --muted-foreground: #adadad;
+}
