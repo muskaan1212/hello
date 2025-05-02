@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealConnect - Community Wellness Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Remove the callback parameter to avoid errors if Google Maps isn't available -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY" defer></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>HealConnect</h1>
+                <p>Find peace. Share stories. Heal together.</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#healing-pods">Healing Pods</a></li>
+                    <li><a href="#community-stories">Community Stories</a></li>
+                    <li><a href="#mental-support">Mental Support</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>Your Wellness Journey Starts Here</h2>
+            <p>Discover local safe spaces, connect with your community, and access mental health resources all in one place.</p>
+            <div class="cta-buttons">
+                <button class="primary-btn" onclick="scrollToSection('healing-pods')">Find Safe Spaces</button>
+                <button class="secondary-btn" onclick="scrollToSection('community-stories')">Share Your Story</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="healing-pods" class="section">
+        <div class="container">
+            <h2>SereneSphere: Local Healing Pods</h2>
+            <p>Discover peaceful locations near you where you can retreat during emotional distress.</p>
+            
+            <div class="map-container">
+                <div id="map"></div>
+                <div class="map-sidebar">
+                    <h3>Find Your Safe Space</h3>
+                    <div class="filter-options">
+                        <label>
+                            <input type="checkbox" checked> Cafes
+                        </label>
+                        <label>
+                            <input type="checkbox" checked> Parks
+                        </label>
+                        <label>
+                            <input type="checkbox" checked> Meditation Zones
+                        </label>
+                    </div>
+                    <div class="mood-selector">
+                        <h4>How are you feeling?</h4>
+                        <select id="mood-select" onchange="updateMoodResources()">
+                            <option value="anxious">Anxious</option>
+                            <option value="sad">Sad</option>
+                            <option value="overwhelmed">Overwhelmed</option>
+                            <option value="stressed">Stressed</option>
+                        </select>
+                    </div>
+                    <div id="ai-suggestions" class="ai-suggestions">
+                        <h4>AI Calming Prompt</h4>
+                        <p id="calming-prompt">Take a deep breath. Notice five things you can see around you. Acknowledge them silently. You are present in this moment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="community-stories" class="section">
+        <div class="container">
+            <h2>BondBox: Community Micro-Stories</h2>
+            <p>Share and read 1-minute life stories to connect emotionally with people in your community.</p>
+            
+            <div class="stories-container">
+                <div class="story-submission">
+                    <h3>Share Your Story</h3>
+                    <p>Keep it under 1 minute to read - approximately 200 words.</p>
+                    <textarea id="story-input" placeholder="Today, I experienced something that made me smile..."></textarea>
+                    <div class="story-controls">
+                        <span id="word-count">0/200 words</span>
+                        <button class="primary-btn" onclick="submitStory()">Share Story</button>
+                    </div>
+                </div>
+                
+                <div class="story-feed">
+                    <h3>Recent Stories</h3>
+                    <div class="story-card">
+                        <div class="story-header">
+                            <span class="author">Sarah J.</span>
+                            <span class="timestamp">2 hours ago</span>
+                        </div>
+                        <p class="story-content">I was feeling overwhelmed at work today when a coworker noticed and brought me a cup of tea. It was such a small gesture but it reminded me that I'm not alone. Sometimes the smallest acts of kindness can make the biggest difference.</p>
+                        <div class="story-footer">
+                            <button class="reaction-btn">❤️ 12</button>
+                            <button class="reaction-btn">🤗 5</button>
+                        </div>
+                    </div>
+                    
+                    <div class="story-card">
+                        <div class="story-header">
+                            <span class="author">Miguel R.</span>
+                            <span class="timestamp">Yesterday</span>
+                        </div>
+                        <p class="story-content">After the storm last week, I was worried about my garden. This morning, I discovered my damaged tomato plants had new growth. Nature's resilience is a powerful reminder that we can all recover and grow after difficult times.</p>
+                        <div class="story-footer">
+                            <button class="reaction-btn">❤️ 24</button>
+                            <button class="reaction-btn">🌱 18</button>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-conversation-starter">
+                        <h4>Conversation Starter</h4>
+                        <p>What small moment brought you unexpected joy this week?</p>
+                        <button class="secondary-btn" onclick="refreshConversationStarter()">New Starter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="mental-support" class="section">
+        <div class="container">
+            <h2>SentiSave: Mental Health Companion</h2>
+            <p>Access resources, process emotions, and connect with support, even in crisis situations.</p>
+            
+            <div class="support-container">
+                <div class="support-tools">
+                    <h3>Wellness Tools</h3>
+                    <div class="tool-cards">
+                        <div class="tool-card">
+                            <h4>Micro-Journaling</h4>
+                            <p>Record your thoughts and feelings in a structured, bite-sized format.</p>
+                            <button class="secondary-btn" onclick="openTool('journal')">Open Journal</button>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <h4>Guided Breathing</h4>
+                            <p>Follow simple breathing exercises to help calm your nervous system.</p>
+                            <button class="secondary-btn" onclick="openTool('breathing')">Start Exercise</button>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <h4>Emotion Tracker</h4>
+                            <p>Track your emotional patterns to identify triggers and improvements.</p>
+                            <button class="secondary-btn" onclick="openTool('emotions')">Track Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="crisis-support">
+                    <h3>Crisis Resources</h3>
+                    <p>If you're experiencing a mental health emergency, help is available:</p>
+                    <div class="emergency-contacts">
+                        <div class="contact-card">
+                            <h4>Crisis Text Line</h4>
+                            <p>Text HOME to 741741</p>
+                        </div>
+                        
+                        <div class="contact-card">
+                            <h4>National Suicide Prevention Lifeline</h4>
+                            <p>1-800-273-8255</p>
+                        </div>
+                        
+                        <div class="contact-card">
+                            <h4>Find Local Support</h4>
+                            <button class="primary-btn" onclick="findLocalSupport()">Search Nearby</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sentiment-analyzer">
+                    <h3>How are you feeling?</h3>
+                    <p>Share your thoughts, and our system will suggest personalized resources.</p>
+                    <textarea id="sentiment-input" placeholder="I'm feeling..."></textarea>
+                    <button class="primary-btn" onclick="analyzeSentiment()">Analyze & Get Support</button>
+                    <div id="sentiment-results" class="hidden">
+                        <h4>Suggested Resources</h4>
+                        <ul id="resource-list">
+                            <!-- Resources will be added here by JavaScript -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section">
+        <div class="container">
+            <h2>About HealConnect</h2>
+            <p>HealConnect combines three powerful wellness concepts into one platform:</p>
+            
+            <div class="about-cards">
+                <div class="about-card">
+                    <h3>SereneSphere</h3>
+                    <p>AI-Powered Local Healing Pods that map safe spaces where people can retreat during emotional distress.</p>
+                </div>
+                
+                <div class="about-card">
+                    <h3>BondBox</h3>
+                    <p>Community bonding through micro-stories, helping neighbors connect emotionally rather than superficially.</p>
+                </div>
+                
+                <div class="about-card">
+                    <h3>SentiSave</h3>
+                    <p>Mental health companion that helps people process emotions and connect with verified support resources.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>HealConnect</h2>
+                    <p>Find peace. Share stories. Heal together.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#healing-pods">Healing Pods</a></li>
+                        <li><a href="#community-stories">Community Stories</a></li>
+                        <li><a href="#mental-support">Mental Support</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h3>Contact</h3>
+                    <p>Email: support@healconnect.com</p>
+                    <p>For emergencies, please use the crisis resources listed above.</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 HealConnect. All rights reserved.</p>
+                <p>This platform is not a substitute for professional mental health care.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Tool Modals -->
+    <div id="journal-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('journal-modal')">&times;</span>
+            <h2>Micro-Journal</h2>
+            <div class="journal-prompts">
+                <p>What emotions are you experiencing right now?</p>
+                <textarea placeholder="I'm feeling..."></textarea>
+                
+                <p>What triggered these emotions?</p>
+                <textarea placeholder="It started when..."></textarea>
+                
+                <p>One small step I can take right now is:</p>
+                <textarea placeholder="I could..."></textarea>
+            </div>
+            <button class="primary-btn">Save Entry</button>
+        </div>
+    </div>
+
+    <div id="breathing-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('breathing-modal')">&times;</span>
+            <h2>Guided Breathing</h2>
+            <div class="breathing-exercise">
+                <div class="breathing-circle">
+                    <div class="circle-text">Breathe</div>
+                </div>
+                <div class="breathing-instructions">
+                    <p id="breath-instruction">Breathe in...</p>
+                </div>
+                <button class="primary-btn" onclick="startBreathing()">Begin</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="emotions-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('emotions-modal')">&times;</span>
+            <h2>Emotion Tracker</h2>
+            <div class="emotion-tracker">
+                <p>How are you feeling right now?</p>
+                <div class="emotion-grid">
+                    <button class="emotion-btn">😊 Happy</button>
+                    <button class="emotion-btn">😔 Sad</button>
+                    <button class="emotion-btn">😠 Angry</button>
+                    <button class="emotion-btn">😨 Anxious</button>
+                    <button class="emotion-btn">😌 Calm</button>
+                    <button class="emotion-btn">😕 Confused</button>
+                    <button class="emotion-btn">🥱 Tired</button>
+                    <button class="emotion-btn">🤔 Thoughtful</button>
+                </div>
+                <p>Intensity:</p>
+                <input type="range" min="1" max="10" value="5" class="intensity-slider">
+                <p>Notes:</p>
+                <textarea placeholder="What might be contributing to this feeling?"></textarea>
+                <button class="primary-btn">Save Entry</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
